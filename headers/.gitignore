@@ -1,0 +1,5 @@
+# Ignore the .vscode folder
+.vscode/
+
+# Ignore the QuantumEntanglement.exe file
+QuantumEntanglement.exe
