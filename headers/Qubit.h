@@ -34,6 +34,7 @@ class qubit{
     void printQubit(Qubit qubit);
     Qubit tensorProduct();
     float measure(Qubit qubit);
+    Qubit collapse(float measurement);
 };
 
 

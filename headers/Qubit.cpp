@@ -169,3 +169,20 @@ std::cout << "]\n State:\n";
 std::cout<<qubit.state.c_str();
 
 }
+
+Qubit qubit::collapse(float measurement)
+{
+    Qubit collapsedQubit;
+
+    if (measurement<=0.5)
+    {
+      collapsedQubit.qubit = {1.0,0.0};
+      collapsedQubit.state = "|0>";
+    }
+    else
+    {
+      collapsedQubit.qubit = {0.0,1.0};
+      collapsedQubit.state = "|1>";
+    }
+return collapsedQubit;
+}

@@ -34,6 +34,10 @@ int main()
       bellState = gate2.CNotGate();
 
       qubita.printQubit(bellState);      
+      
+      float measured = qubita.measure(bellState);
+      cout<<"Measurement: "<< measured;
+      qubita.printQubit(qubita.collapse(measured));
       system("pause"); 
       return 0;
 
