@@ -1,6 +1,3 @@
-
-Certainly, here's a modified version of the readme following the requested format:
-
 Problem Statement:
 
 Problem Statement: We aim to develop a quantum simulator that emulates various aspects of quantum computing.
