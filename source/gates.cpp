@@ -2,9 +2,9 @@
 
 
 
- std::vector<std::complex<double>> gates::singleQubitGateCalculator(std::vector<std::vector<std::complex<double>>> gate, std::vector<std::complex<double>>qubit)
+ std::vector<std::complex<double> > gates::singleQubitGateCalculator(std::vector<std::vector<std::complex<double> > > gate, std::vector<std::complex<double> >qubit)
    {
-     std::vector<std::complex<double>> result;
+     std::vector<std::complex<double> > result;
      for (int i = 0; i<gate.size();i++)
        {
         std::complex<double> value = 0;
@@ -34,10 +34,10 @@ gates::gates(Qubit qubit1, Qubit qubit2)
    }
 
 
- std::vector<std::vector<std::complex<double>>> gates::gateMatrixRetreiver(std::string gateName)
+ std::vector<std::vector<std::complex<double> > > gates::gateMatrixRetreiver(std::string gateName)
  {
 
-   std::vector<std::vector<std::complex<double>>> gateMatrix;
+   std::vector<std::vector<std::complex<double> > > gateMatrix;
       
       
       if (gateName == "PauliX")
@@ -84,8 +84,8 @@ Qubit gates::singleBitGate(std::string gateType)
      
      qubit qubita(qubit1);
      
-     std::vector<std::vector<std::complex<double>>> gateMatrix= gateMatrixRetreiver(gateType);
-     std::vector<std::complex<double>> resultVector = singleQubitGateCalculator(gateMatrix, qubit1.qubit);
+     std::vector<std::vector<std::complex<double> > > gateMatrix= gateMatrixRetreiver(gateType);
+     std::vector<std::complex<double> > resultVector = singleQubitGateCalculator(gateMatrix, qubit1.qubit);
 
      Qubit result;
      

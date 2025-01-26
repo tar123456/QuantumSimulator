@@ -20,9 +20,9 @@ qubit::qubit(Qubit qubit1, Qubit qubit2)
    }
 
 
-std::vector<std::complex<double>> qubit::vectorForStates(std::string state)
+std::vector<std::complex<double> > qubit::vectorForStates(std::string state)
    {
-   std::vector<std::complex<double>> qubit;
+   std::vector<std::complex<double> > qubit;
     if (state == "|0>")
     { 
         qubit.push_back(std::complex<double>(1.0, 0.0));
@@ -69,7 +69,7 @@ std::vector<std::complex<double>> qubit::vectorForStates(std::string state)
    }
 
 
-std::string qubit::stateForVector(std::vector<std::complex<double>> qubit)
+std::string qubit::stateForVector(std::vector<std::complex<double> > qubit)
     {
       if (qubit.size() != 2) {
         return "Invalid vector size.";
@@ -122,17 +122,17 @@ Qubit qubit::tensorProduct()
 float qubit::measure(Qubit qubit)
 {
   float value = 0.0;
-  std::vector<std::complex<double>> vector1;
+  std::vector<std::complex<double> > vector1;
   vector1.push_back(std::complex<double>(1.0, 0.0)/sqrt(3));
   vector1.push_back(std::complex<double>(0.0, 0.0)/sqrt(3));
 
-  std::vector<std::complex<double>> vector2;
+  std::vector<std::complex<double> > vector2;
   vector2.push_back((sqrt(2)*std::complex<double>(0.0, 0.0))/sqrt(3));
   vector2.push_back((sqrt(2)*std::complex<double>(1.0, 0.0))/sqrt(3));
 
 
-  std::vector<std::complex<double>> psi;
-  std::vector<std::complex<double>> stateToBeMeasured;
+  std::vector<std::complex<double> > psi;
+  std::vector<std::complex<double> > stateToBeMeasured;
 
   for(int i = 0; i<2;i++)
   {

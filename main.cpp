@@ -3,8 +3,8 @@
 #include<string>
 #include<complex>
 #include<math.h>
-#include"headers/gates.h"
-#include"headers/Qubit.h"
+#include"gates.h"
+#include"Qubit.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ int main()
       float measured = qubita.measure(bellState);
       cout<<"Measurement: "<< measured;
       qubita.printQubit(qubita.collapse(measured));
-      system("pause"); 
+      std::cin.get();
       return 0;
 
    }

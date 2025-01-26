@@ -22,8 +22,8 @@ class gates
    Qubit qubit1, qubit2;
 
 
-   std::vector<std::complex<double>> singleQubitGateCalculator(std::vector<std::vector<std::complex<double>>> gate, std::vector<std::complex<double>>qubit);
-   std::vector<std::vector<std::complex<double>>> gateMatrixRetreiver(std::string gateName);
+   std::vector<std::complex<double> > singleQubitGateCalculator(std::vector<std::vector<std::complex<double> > > gate, std::vector<std::complex<double> >qubit);
+   std::vector<std::vector<std::complex<double> > > gateMatrixRetreiver(std::string gateName);
 
   public:
 

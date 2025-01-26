@@ -14,7 +14,7 @@
 
 
 struct Qubit{
-     std::vector<std::complex<double>> qubit;
+     std::vector<std::complex<double> > qubit;
      std::string state;
    };
 
@@ -29,8 +29,8 @@ class qubit{
     qubit(Qubit qubit1);
     qubit(Qubit qubit1,Qubit qubit2);
 
-    std::vector<std::complex<double>> vectorForStates(std::string state);
-    std::string stateForVector(std::vector<std::complex<double>> qubit);
+    std::vector<std::complex<double> > vectorForStates(std::string state);
+    std::string stateForVector(std::vector<std::complex<double> > qubit);
     void printQubit(Qubit qubit);
     Qubit tensorProduct();
     float measure(Qubit qubit);
