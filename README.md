@@ -1,5 +1,3 @@
-Problem Statement:
-
 Problem Statement: We aim to develop a quantum simulator that emulates various aspects of quantum computing.
 
 Particular Scenario Provided: In this scenario, we focus on simulating quantum entanglement using our custom-built quantum simulator. Quantum entanglement is a core phenomenon in quantum computing where the states of quantum particles 
