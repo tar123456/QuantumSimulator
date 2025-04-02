@@ -2,38 +2,28 @@
 #define GATES_H
 
 #include <vector>
-#include <string>
 #include <complex>
 #include <iostream>
 #include <math.h>
-#include <locale>
-#include <codecvt>
-#include <array>
 #include "Qubit.h"
-
-
-
 
 class gates
 {
-  private:
-   
+private:
+    std::vector<Qubit> qubits;
 
-   Qubit qubit1, qubit2;
+    std::vector<std::complex<double>> singleQubitGateCalculator(
+        const std::vector<std::vector<std::complex<double>>>& gate, 
+        const std::vector<std::complex<double>>& qubit);
+    std::vector<std::vector<std::complex<double>>> gateMatrixRetriever(const std::string& gateName);
+    std::vector<std::complex<double>> fullStateVector;
 
+public:
 
-   std::vector<std::complex<double> > singleQubitGateCalculator(std::vector<std::vector<std::complex<double> > > gate, std::vector<std::complex<double> >qubit);
-   std::vector<std::vector<std::complex<double> > > gateMatrixRetreiver(std::string gateName);
-
-  public:
-
-  gates();
-  gates(Qubit qubit1);
-  gates(Qubit qubit1, Qubit qubit2);
-  Qubit singleBitGate(std::string gateType);
-  Qubit CNotGate();
-  
-
-
+    gates(const Qubit& singleQubit);
+    gates(const std::vector<Qubit>& multipleQubits);
+    
+    Qubit singleBitGate(const std::string& gateType, size_t qubitIndex);
+    Qubit CNotGate(size_t controlIndex, size_t targetIndex); 
 };
 #endif // GATES_H

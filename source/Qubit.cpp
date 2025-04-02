@@ -1,188 +1,119 @@
 #include "Qubit.h"
+#include <random> 
 
 
-qubit::qubit()
-   {
-    this->qubit1.qubit = {};
-    this->qubit1.state = "";
-   }
-qubit::qubit(Qubit qubit1)
-   {
-       this->qubit1.qubit = qubit1.qubit;
-       this->qubit1.state = qubit1.state;
-   }
-qubit::qubit(Qubit qubit1, Qubit qubit2)
-   {
-      this->qubit1.qubit = qubit1.qubit;
-      this->qubit1.state = qubit1.state;
-      this->qubit2.qubit = qubit2.qubit;
-      this->qubit2.state = qubit2.state;
-   }
+qubit::qubit() {}
 
+qubit::qubit(const Qubit& singleQubit) {
+    qubits.push_back(singleQubit);
+}
 
-std::vector<std::complex<double> > qubit::vectorForStates(std::string state)
-   {
-   std::vector<std::complex<double> > qubit;
-    if (state == "|0>")
-    { 
-        qubit.push_back(std::complex<double>(1.0, 0.0));
-        qubit.push_back(std::complex<double>(0.0, 0.0));
-        
-        return(qubit);
+qubit::qubit(const std::vector<Qubit>& multipleQubits) {
+    qubits = multipleQubits;
+}
+
+void qubit::printQubit(const Qubit& qubit) {
+    std::cout << "[ ";
+    for (const auto& amplitude : qubit.state_vector) {
+        std::cout << amplitude << " ";
     }
-    else if (state == "|1>")
-    {
-        qubit.push_back(std::complex<double>(0.0, 0.0));
-        qubit.push_back(std::complex<double>(1.0, 0.0));
-        
-        return(qubit);
-    }
-    else if (state == "|+>")
-    {
-        qubit.push_back(std::complex<double>(1.0 , 0.0)/ sqrt(2));
-        qubit.push_back(std::complex<double>(1.0 , 0.0)/ sqrt(2));
-        return(qubit);
-    }
-    else if (state == "|->")
-    {
-        qubit.push_back(std::complex<double>(1.0 , 0.0)/ sqrt(2));
-        qubit.push_back(std::complex<double>(-1.0, 0.0)/ sqrt(2));
-        return(qubit);
-    }
-    else if (state == "|i>")
-    {
-        qubit.push_back(std::complex<double>(1.0, 0.0)/ sqrt(2));
-        qubit.push_back(std::complex<double>(0.0, 1.0)/ sqrt(2));
-        return(qubit);
-    }
-    else if (state == "|-i>")
-    {
-        qubit.push_back(std::complex<double>(1.0, 0.0)/ sqrt(2));
-        qubit.push_back(std::complex<double>(0.0, -1.0)/ sqrt(2));
-        return(qubit);
-    }
+    std::cout << "]\n";
+}
 
-    else
-    {
-      return {};
+Qubit qubit::tensorProduct() {
+    if (qubits.empty()) return {};
+    Qubit result = qubits[0];
+    for (size_t i = 1; i < qubits.size(); i++) {
+        Qubit temp;
+        for (const auto& a : result.state_vector) {
+            for (const auto& b : qubits[i].state_vector) {
+                temp.state_vector.push_back(a * b);
+            }
+        }
+        result = temp;
     }
-   }
-
-
-std::string qubit::stateForVector(std::vector<std::complex<double> > qubit)
-    {
-      if (qubit.size() != 2) {
-        return "Invalid vector size.";
-       }
-
-      if (qubit[0] == std::complex<double>(1.0, 0.0) && qubit[1] == std::complex<double>(0.0, 0.0)) {
-          return "|0>";
-      } 
-      else if (qubit[0] == std::complex<double>(0.0, 0.0) && qubit[1] == std::complex<double>(1.0, 0.0)) {
-          return "|1>";
-      }
-      else if (qubit[0] == std::complex<double>(1.0, 0.0)/sqrt(2) && qubit[1] == std::complex<double>(1.0, 0.0)/sqrt(2)) {
-          return "|+>";
-      }
-       else if (qubit[0] == std::complex<double>(1.0, 0.0)/sqrt(2) && qubit[1] == std::complex<double>(-1.0, 0.0)/sqrt(2)) {
-          return "|->";
-      }
-       else if (qubit[0] == std::complex<double>(1.0, 0.0)/sqrt(2) && qubit[1] == std::complex<double>(0.0, 1.0)/sqrt(2)) {
-          return "|i>";
-      }
-      else if (qubit[0] == std::complex<double>(1.0, 0.0)/sqrt(2) && qubit[1] == std::complex<double>(0.0, -1.0)/sqrt(2)) {
-          return "|-i>";
-      }
-      else {
-          return "Unknown State";
-          
-      }
-
-    }
-
-Qubit qubit::tensorProduct()
-{
-   Qubit result;
-   std::string tensorProductSymbol = "\u2297";
-   result.qubit.reserve(qubit1.qubit.size()*qubit2.qubit.size());
-   for (const auto qubita : qubit1.qubit)
-   {
-     for(const auto qubitb : qubit2.qubit)
-     {
-       result.qubit.push_back(qubita*qubitb);
-     }
-     
-   }
-    result.state = qubit1.state+" "+tensorProductSymbol+" "+qubit2.state;
     return result;
 }
 
 
 
-float qubit::measure(Qubit qubit)
-{
-  float value = 0.0;
-  std::vector<std::complex<double> > vector1;
-  vector1.push_back(std::complex<double>(1.0, 0.0)/sqrt(3));
-  vector1.push_back(std::complex<double>(0.0, 0.0)/sqrt(3));
+float qubit::measure(size_t qubitIndex) {
+    if (qubits.empty() || qubitIndex >= qubits.size()) {
+        throw std::invalid_argument("Invalid qubit index");
+    }
 
-  std::vector<std::complex<double> > vector2;
-  vector2.push_back((sqrt(2)*std::complex<double>(0.0, 0.0))/sqrt(3));
-  vector2.push_back((sqrt(2)*std::complex<double>(1.0, 0.0))/sqrt(3));
+    Qubit& measuredQubit = qubits[qubitIndex];
 
+    // If not entangled, measure normally
+    if (!measuredQubit.isEntangled) {
+        double prob0 = std::norm(measuredQubit.state_vector[0]);
+        double prob1 = std::norm(measuredQubit.state_vector[1]);
 
-  std::vector<std::complex<double> > psi;
-  std::vector<std::complex<double> > stateToBeMeasured;
+        // Normalize probabilities
+        double totalProb = prob0 + prob1;
+        if (totalProb == 0) throw std::runtime_error("Invalid state: probabilities sum to zero.");
 
-  for(int i = 0; i<2;i++)
-  {
-    psi.push_back(vector1[i]+vector2[i]);
-    stateToBeMeasured.push_back(std::conj(qubit.qubit[i]));;
-  }
-  
-  for (int i =0 ; i<2; i++)
-  {
-    value = value + (stateToBeMeasured[i].real()*psi[i].real());
-  }
-   
-  value = pow(value,2);
-  return value;
-}
+        prob0 /= totalProb;
+        prob1 /= totalProb;
 
+        // Generate random number
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<double> dist(0.0, 1.0);
+        double random = dist(gen);
 
+        // Collapse the state
+        if (random < prob0) {
+            measuredQubit.state_vector = {1.0, 0.0}; // Collapse to |0⟩
+            return 0;
+        } else {
+            measuredQubit.state_vector = {0.0, 1.0}; // Collapse to |1⟩
+            return 1;
+        }
+    }
 
-void qubit::printQubit(Qubit qubit)
-{
-  const char* desiredLocale = "en_US.UTF-8";
-    std::setlocale(LC_ALL, desiredLocale);
+    // If entangled, we must measure the full state
+    if (qubits.size() != 2) throw std::runtime_error("Only 2-qubit entanglement is supported for now.");
 
-  std::cout<<"[ ";
-  for (int i = 0; i < qubit.qubit.size(); i++) {
-    if (qubit.qubit[i].imag() != 0.0) {
-        std::cout<< qubit.qubit[i].imag() << "i";
+    // Get reference to both qubits
+    Qubit& q0 = qubits[0];
+    Qubit& q1 = qubits[1];
+
+    // Compute probability of measuring qubitIndex as |0⟩
+    double prob0, prob1;
+    if (qubitIndex == 0) {
+        // Measuring first qubit
+        prob0 = std::norm(q0.state_vector[0]);
+        prob1 = std::norm(q0.state_vector[1]);
     } else {
-        std::cout<< qubit.qubit[i].real() << " ";
+        // Measuring second qubit
+        prob0 = std::norm(q1.state_vector[0]);
+        prob1 = std::norm(q1.state_vector[1]);
     }
-}
 
-std::cout << "]\n State:\n";
-std::cout<<qubit.state.c_str();
+    // Normalize probabilities
+    double totalProb = prob0 + prob1;
+    if (totalProb == 0) throw std::runtime_error("Invalid state: probabilities sum to zero.");
+    
+    prob0 /= totalProb;
+    prob1 /= totalProb;
 
-}
+    // Randomly determine measurement outcome
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    double random = dist(gen);
 
-Qubit qubit::collapse(float measurement)
-{
-    Qubit collapsedQubit;
+    int result = (random < prob0) ? 0 : 1;
 
-    if (measurement<=0.5)
-    {
-      collapsedQubit.qubit = {1.0,0.0};
-      collapsedQubit.state = "|0>";
+    // Collapse both qubits accordingly
+    if (result == 0) {
+        q0.state_vector = {1.0, 0.0};
+        q1.state_vector = {1.0, 0.0};  // Ensures entanglement collapse
+    } else {
+        q0.state_vector = {0.0, 1.0};
+        q1.state_vector = {0.0, 1.0};  // Ensures entanglement collapse
     }
-    else
-    {
-      collapsedQubit.qubit = {0.0,1.0};
-      collapsedQubit.state = "|1>";
-    }
-return collapsedQubit;
+
+    return result;
 }
