@@ -80,19 +80,10 @@ Qubit gates::CNotGate(size_t controlIndex, size_t targetIndex) {
        }
    }
 
-   // Store the full state in the system 
-   // (We'll need to add a fullStateVector member to the gates class)
+
    this->fullStateVector = resultVector;
 
-   // For backward compatibility, we still return the target qubit
-   // but now we just store a reference to the fact that this qubit
-   // is part of an entangled system
-   qubits[targetIndex].isEntangled = true;
-   qubits[controlIndex].isEntangled = true;
    
-   // Store references to which qubits are entangled
-   qubits[targetIndex].entangledWith.push_back(controlIndex);
-   qubits[controlIndex].entangledWith.push_back(targetIndex);
 
-   return qubits[targetIndex];
+   return Qubit(fullStateVector);
 }

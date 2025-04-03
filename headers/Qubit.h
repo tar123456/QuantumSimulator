@@ -8,14 +8,13 @@
 
 struct Qubit {
     std::vector<std::complex<double>> state_vector;
-    bool isEntangled = false;
-    std::vector<size_t> entangledWith;   
+
 };
 
 class qubit {
 private:
     std::vector<Qubit> qubits;
-    
+    std::vector<std::complex<double>> system_state; 
     void updateSingleQubitStates();
 
 public:
@@ -27,8 +26,7 @@ public:
     // Methods
     void printQubit(const Qubit& qubit); 
     std::vector<Qubit> getQubits() const { return qubits; } // Getter function
-    Qubit tensorProduct(); 
-    float measure(size_t qubitIndex); 
+    Qubit tensorProduct();  
 };
 
 #endif

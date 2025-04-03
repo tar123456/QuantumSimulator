@@ -13,19 +13,15 @@ int main() {
     gates quantumGates(qubits);
     qubits[0] = quantumGates.singleBitGate("Hadamard", 0);
 
-    
-    qubits[1] = quantumGates.CNotGate(0, 1); 
+    Qubit BellState;
 
-    qubit q(qubits);
+    BellState = quantumGates.CNotGate(0, 1); 
+
+    qubit q(BellState);
    
     std::cout << "Entangled Qubit State:\n";
-    for (size_t i = 0; i < qubits.size(); ++i) {
-        q.printQubit(qubits[i]); 
-    }
-
-   
-    float measurement = q.measure(0); 
-    std::cout << "Measurement result of Qubit 0: " << measurement << "\n";
+    
+    q.printQubit(BellState); 
 
     return 0;
 }
